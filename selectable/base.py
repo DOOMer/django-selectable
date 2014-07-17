@@ -134,6 +134,7 @@ class ModelLookup(LookupBase):
     model = None
     filters = {}
     search_fields = ()
+    order_by = ()
 
     def get_query(self, request, term):
         qs = self.get_queryset()
@@ -152,6 +153,9 @@ class ModelLookup(LookupBase):
             qs = self.model._default_manager.get_query_set()
         if self.filters:
             qs = qs.filter(**self.filters)
+        if self.order_by:
+            qs = qs.order_by(*self.order_by)
+
         return qs
 
     def get_item_id(self, item):
